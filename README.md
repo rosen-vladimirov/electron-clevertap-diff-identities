@@ -1,45 +1,23 @@
 # electron-quick-start
 
-**Clone and run for a quick way to see Electron in action.**
+**Demonstrates an issue with session length when using Clevertap in Electron app**
 
-This is a minimal Electron application based on the [Quick Start Guide](https://electronjs.org/docs/tutorial/quick-start) within the Electron documentation.
+This project demonstrates an issue with session length when using Clevertap analytics in Electron application.
 
-**Use this app along with the [Electron API Demos](https://electronjs.org/#get-started) app for API code examples to help you get started.**
-
-A basic Electron application needs just these files:
-
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
-
-You can learn more about each of these components within the [Quick Start Guide](https://electronjs.org/docs/tutorial/quick-start).
-
-## To Use
-
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
-
-```bash
-# Clone this repository
-git clone https://github.com/electron/electron-quick-start
-# Go into the repository
-cd electron-quick-start
-# Install dependencies
-npm install
-# Run the app
-npm start
+**Setup**
+1. Clone the repo:
 ```
-
-Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
-
-## Resources for Learning Electron
-
-- [electronjs.org/docs](https://electronjs.org/docs) - all of Electron's documentation
-- [electronjs.org/community#boilerplates](https://electronjs.org/community#boilerplates) - sample starter apps created by the community
-- [electron/electron-quick-start](https://github.com/electron/electron-quick-start) - a very basic starter Electron app
-- [electron/simple-samples](https://github.com/electron/simple-samples) - small applications with ideas for taking them further
-- [electron/electron-api-demos](https://github.com/electron/electron-api-demos) - an Electron app that teaches you how to use Electron
-- [hokein/electron-sample-apps](https://github.com/hokein/electron-sample-apps) - small demo apps for the various Electron APIs
-
-## License
-
-[CC0 1.0 (Public Domain)](LICENSE.md)
+git clone git@github.com:rosen-vladimirov/electron-quick-start.git
+```
+2. In the cloned dir, find the index.html file and set your Clevertap ID in the placeholder `<ID HERE>`.
+3. In the root directory run `npm install`
+4. You can test if everything works as expected by running `npm run start` - this will open a simple Electron app, that will try to send four events to Clevertap. You'll also see the DevTools are opened and in session storage the WZRK_D variable is set.
+4. Now you have to build the application:
+```
+npm run dist
+```
+5. The above command will produce a `dist` folder, which will contain several files. Double-click the `electron-quick-start-1.0.0.dmg` file. This will start the installation of the app.
+6. Once finished, open your Applications directory and locate the `electron-quick-start` application. Right-click it and select Open. First time it will not allow you to run the app, as the app is not notarized, but use right-click-> open again and the app will start.
+7. The application writes all of the DevTools logs in the electronDevToolsLogs.log file in the user's home directory: `~/electronDevToolsLogs.log`.
+8. Close the app and check the logs.
+9. Now start the app again - as there are no 20 mins between the sessions, it is expected to have the same session, but instead a new session is started (you can verify this both in the DevTools and the mentioned log file).
