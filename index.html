@@ -9,7 +9,7 @@
   <script type="text/javascript">
     var clevertap = { event: [], profile: [], account: [], onUserLogin: [], notifications: [], privacy: [] };
     // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
-    clevertap.account.push({ "id": "<ID HERE>" });
+    clevertap.account.push({ "id": "<CLEVERTAP_ACCOUNT_ID>" });
     clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
     clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
     (function () {
@@ -21,17 +21,88 @@
       s.parentNode.insertBefore(wzrk, s);
     })();
   </script>
+  <script>
+    let currentIndexOfMail = 0;
+    let currentMail = '';
+    let eventId = 0;
+    function signIn() {
+      currentIndexOfMail++;
+      currentMail = `randomemail${currentIndexOfMail}@randomemail.com`;
+      clevertap.profile.push({
+        Site: {
+          Email: currentMail
+        }
+      });
+
+      updateLogs(`Now tracking events should go to the profile with email ${currentMail}`);
+    }
+
+    function signOut() {
+      // Here we want to start tracking in a new profile, first anonymous
+      // and if user signs in, to assign the email there. If the email is already used in another profile
+      // we want to merge the profiles.
+      // As advised, we've tried removing the WZRK_G key.
+      localStorage.removeItem("WZRK_G");
+      // Tried calling onUserLogin
+      // clevertap.onUserLogin.push({
+      //   Site: {
+      //     Email: null,
+      //     Identity: null
+      //   }
+      // });
+
+      // Tried removing all localStorage keys with WZRK... but still does not work:
+      // for (const key in localStorage) {
+      //   if (key.startsWith("WZRK")) {
+      //     localStorage.removeItem(key);
+      //   }
+      // }
+
+      currentMail = '';
+      updateLogs('Now tracking events should go to anonymous, new profile. After sign in, the events should be associated with the new one.');
+    }
+
+    function updateLogs(text) {
+      const logsDiv = document.getElementById("logsContent");
+      logsDiv.textContent += `\r\n[${new Date().toLocaleString()}] Current email: ${currentMail} ${text}`;
+    }
+
+    function signInBtnClicked() {
+      const btn = document.getElementById("actionBtn");
+
+      const isSignIn = btn.textContent === "Sign In";
+      if (isSignIn) {
+        signIn();
+      } else {
+        signOut();
+      }
+
+      btn.textContent = isSignIn ? "Sign Out" : "Sign In";
+    }
+
+    function trackInClevertap() {
+      const eventName = `Button for tracking clicked, event Id: ${eventId++}`;
+      clevertap.event.push(eventName);
+      updateLogs(`Sent event ${eventName}`);
+    }
+  </script>
   <title>Hello World!</title>
 </head>
 
 <body>
-  <h1>Hello World!</h1>
-  We are using Node.js <span id="node-version"></span>,
-  Chromium <span id="chrome-version"></span>,
-  and Electron <span id="electron-version"></span>.
-
+  <div>
+    <div style="font-size: large; margin-top: 0;">START by clicking the track button several times. After that click on the Sign In, click on the Track button again. Now click on Sign Out and track events again.</div>
+    <div style="font-size: large; margin-top: 0;">Whenever the user is not signed in, we want to have anonymous tracking. When the user signs in after that, we want to associate the anonymous profile with the current email. If Sign Out is clicked, we want to track in a new, anonymous profile, until the user signs in again.</div>
+    <div>
+      <button style="width: 500px; height: 70px; margin-top: 50;" onclick="trackInClevertap()">TRACK EVENT (CLICK AFTER SIGN IN AND SIGN OUT)</button>
+    </div>
+    <div>
+      <button id="actionBtn" style="width: 500px; height: 70px;margin-top: 50;" onclick="signInBtnClicked()">Sign In</button>
+    </div>
+    <div id="logsContent" style="font-size: medium;margin-top: 50; white-space: pre;">Logs what happened:</div>
+  </div>
   <!-- You can also require other files to run in this process -->
-  <script src="./renderer.js"></script>
+  <!-- <script src="./renderer.js"></script> -->
 </body>
 
 </html>

@@ -6,7 +6,3 @@
 // process.
 
 window.sessionStorage.setItem("WZRK_D", "");
-clevertap.event.push('testEvent1');
-clevertap.event.push('testEvent2');
-clevertap.event.push('testEvent3');
-clevertap.event.push('testEvent4');

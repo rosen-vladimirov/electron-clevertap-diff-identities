@@ -13,7 +13,7 @@ function createWindow() {
     }
   })
 
-  mainWindow.webContents.toggleDevTools()
+  // mainWindow.webContents.toggleDevTools()
   const pathToHomeDir = app.getPath('home')
   const pathToLogFile = path.join(pathToHomeDir, 'electronDevToolsLogs.log')
   mainWindow.webContents.on('console-message', (event, level, msg, line, sourceId) => {
