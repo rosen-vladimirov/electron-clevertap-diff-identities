@@ -9,7 +9,7 @@
   <script type="text/javascript">
     var clevertap = { event: [], profile: [], account: [], onUserLogin: [], notifications: [], privacy: [] };
     // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
-    clevertap.account.push({ "id": "<CLEVERTAP_ACCOUNT_ID>" });
+    clevertap.account.push({ "id": "<ID_HERE>" });
     clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
     clevertap.privacy.push({ useIP: false }); //set the flag to true, if the user agrees to share their IP data
     (function () {
@@ -94,7 +94,7 @@
     <div style="font-size: large; margin-top: 0;">START by clicking the track button several times. After that click on the Sign In, click on the Track button again. Now click on Sign Out and track events again.</div>
     <div style="font-size: large; margin-top: 0;">Whenever the user is not signed in, we want to have anonymous tracking. When the user signs in after that, we want to associate the anonymous profile with the current email. If Sign Out is clicked, we want to track in a new, anonymous profile, until the user signs in again.</div>
     <div>
-      <button style="width: 500px; height: 70px; margin-top: 50;" onclick="trackInClevertap()">TRACK EVENT (CLICK AFTER SIGN IN AND SIGN OUT)</button>
+      <button style="width: 500px; height: 70px; margin-top: 50;" onclick="trackInClevertap()">TRACK EVENT</button>
     </div>
     <div>
       <button id="actionBtn" style="width: 500px; height: 70px;margin-top: 50;" onclick="signInBtnClicked()">Sign In</button>
